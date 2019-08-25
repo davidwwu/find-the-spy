@@ -1,27 +1,23 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "hello-express",
+  "name": "udemy-vue_chat",
   "version": "0.0.1",
-  "description": "A simple Node app built on Express, instantly up and running.",
+  "description": "vue chat with express backend",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
-  "dependencies": {
-    "express": "^4.16.4"
-  },
-  "engines": {
-    "node": "8.x"
-  },
-  "repository": {
-    "url": "https://glitch.com/edit/#!/hello-express"
-  },
-  "license": "MIT",
   "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+    "chat",
+    "vue",
+    "express",
+    "node"
+  ],
+  "author": "zed-chi",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1",
+    "socket.io": "^2.2.0"
+  }
 }
