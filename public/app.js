@@ -29,9 +29,9 @@ new Vue({
   },
   methods: {
     initializeConnection() {
-      socket.on("users:update", users => {
+      socket.on("users:update", function(users) {
         this.users = [...users];
-        let updatedUser =  this.users.find(u => u.id === this.user.id);
+        let updatedUser =  this.users.find(function(u) { return u.id === this.user.id });
         console.log(updatedUser);
         this.data.user.status = updatedUser.status;
         this.data.user.role = updatedUser.role;
