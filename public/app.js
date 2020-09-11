@@ -31,10 +31,6 @@ new Vue({
     initializeConnection() {
       socket.on("users:update", users => {
         this.users = [...users];
-        // let updatedUser =  this.users.find(u => u.id === this.user.id);
-        // console.log(updatedUser);
-        // this.data.user.status = updatedUser.status;
-        // this.data.user.role = updatedUser.role;
         // count down when players are joined
         
       });
@@ -85,7 +81,8 @@ new Vue({
         console.error(data);
       } else {
         this.user.id = data.userId;
-        this.user.status
+        this.user.status = data.userStatus;
+        this.user.role = data.userRole;
         this.initializeConnection();
       }
     });

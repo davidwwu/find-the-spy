@@ -31,7 +31,7 @@ io.on("connection", sock => {
       users.remove(sock.id);
       let userStatus = users.getReadiedPlayersByRoom(user.room).length < 4 ? '已坐下' : '圍觀';
       users.add(sock.id, user.name, user.room, userStatus, '平民');
-      cb({ userId: sock.id });
+      cb({ userId: sock.id, userStatus, userRole: '平民' });
       
       io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
       sock.emit("message:new", message("主持", `歡迎, ${user.name}`));
@@ -50,7 +50,7 @@ io.on("connection", sock => {
         const players = users.getReadiedPlayersByRoom(user.room).length;
         // handel system requests
         if (data.text == '!makeHost') {
-          socket.emit("user:update", {id: data.id, role: 'host'});
+          sock.emit("user:update", {id: data.id, role: 'host'});
         } else if (data.text == '!start') {
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
           if (players < 4) {
