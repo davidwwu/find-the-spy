@@ -1,6 +1,7 @@
 class Game {
-  constructor(needPlayers) {
-    this.needPlayers = needPlayers;
+  constructor() {
+    this.needPlayers = 4;
+    this.room;
     this.gameInProgress = false;
     this.players = [];
     this.gameSetup = {
@@ -10,11 +11,12 @@ class Game {
     };
   }
 
-  start(playerList) {
+  startGame(playerList) {
     if (playerList.length < this.needPlayers) {
       return false;
     } else {
       this.players = [...playerList];
+      this.room = 
       if (playerList.length == 4) {
         this.gameSetup['平民'] = 3;
         this.gameSetup['臥底'] = 1;
@@ -27,8 +29,18 @@ class Game {
     }
   }
   
-  GameStatus() {
+  isGameInProgress() {
     return this.gameInProgress;
+  }
+  
+  endGame() {
+    this.gameInProgress = false;
+    this.players = [];
+    this.gameSetup = {
+      平民: 0,
+      臥底: 0,
+      白板: 0
+    };
   }
 
   add(id, name, room, status, role) {
