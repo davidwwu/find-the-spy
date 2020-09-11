@@ -54,8 +54,7 @@ new Vue({
       });
     },
     updateUser(event) {
-      console.log(event.target.inner);
-      this.user.status = event.target.innerHTML === '站起' ? '圍觀' : '已坐下';
+      this.user.status = event.target.innerText === '站起' ? '圍觀' : '已坐下';
       socket.emit("user:update", this.user, err => {
         if (err) {
           console.error(err);
@@ -67,7 +66,7 @@ new Vue({
   },
   created() {
     const params = window.location.search.split("&");
-    const name = decodeURIComponent(params[0].split("=")[1]);
+    const name = decodeURIComponent(params[0].split("=")[1].replace("+", " "));
     const room = params[1].split("=")[1];
 
     this.user = { name, room };
