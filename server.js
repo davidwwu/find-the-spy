@@ -51,7 +51,8 @@ io.on("connection", sock => {
         const players = users.getReadiedPlayersByRoom(user.room).length;
         // handel system requests
         if (data.text == "!makeHost") {
-          sock.to(user.room).emit("user:update", { id: data.id, role: "host" });
+          io.to(user.room)
+            .emit("user:update", { id: data.id, role: "host" });
         } else if (data.text == "!start") {
           io.to(user.room).emit(
             "message:new",
@@ -92,7 +93,7 @@ io.on("connection", sock => {
   });
 
   sock.on("user:update", (user, cb) => {
-    console.log('emit Called');
+    console.log("emit Called");
     users.update(user);
     io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
 
