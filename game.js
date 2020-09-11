@@ -1,15 +1,35 @@
 class Game {
-  constructor() {
+  constructor(needPlayers) {
+    this.needPlayers = needPlayers;
     this.gameInProgress = false;
     this.players = [];
     this.gameSetup = {
-      '平民': 0,
-      '臥底': 0,
-      '白板': 0
+      平民: 0,
+      臥底: 0,
+      白板: 0
+    };
+  }
+
+  start(playerList) {
+    if (playerList.length < this.needPlayers) {
+      return false;
+    } else {
+      this.players = [...playerList];
+      if (playerList.length == 4) {
+        this.gameSetup['平民'] = 3;
+        this.gameSetup['臥底'] = 1;
+      } else if (playerList.length >= 5 && playerList.length < 9) {
+        this.gameSetup['平民'] = playerList.length - 2;
+        this.gameSetup['臥底'] = 1;
+        this.gameSetup['白板'] = 1;
+      }
+      this.gameInProgress = true;
     }
   }
   
-  start()
+  GameStatus() {
+    return this.gameInProgress;
+  }
 
   add(id, name, room, status, role) {
     this.users.push({ id, name, room, status, role });
@@ -18,7 +38,7 @@ class Game {
   get(id) {
     return this.users.find(u => u.id === id);
   }
-  
+
   update(newUserInfo) {
     this.get(newUserInfo.id).name = newUserInfo.name;
     this.get(newUserInfo.id).room = newUserInfo.room;
@@ -38,12 +58,12 @@ class Game {
   getUsersByRoom(room) {
     return this.users.filter(u => u.room === room);
   }
-  
+
   getReadiedPlayersByRoom(room) {
-    return this.users.filter(u => u.room === room && u.status === '已坐下');
+    return this.users.filter(u => u.room === room && u.status === "已坐下");
   }
 }
 
-module.exports = function() {
-  return new Game();
+module.exports = function(needPlayers) {
+  return new Game(needPlayers);
 };
