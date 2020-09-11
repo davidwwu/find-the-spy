@@ -16,7 +16,7 @@ body {
 
 .chat {
   display: flex;
-  height: 60vh;
+  height: calc(85vh - 64px);
   width: 100%;
 }
 
@@ -28,7 +28,7 @@ body {
 
 .actions {
   border: 1px solid #e0e0e0;
-  height: 10vh;
+  height: 15vh;
   padding: 10px;
 }
 
