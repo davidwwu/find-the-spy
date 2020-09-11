@@ -51,7 +51,7 @@ io.on("connection", sock => {
         const players = users.getReadiedPlayersByRoom(user.room).length;
         // handel system requests
         if (data.text == "!makeHost") {
-          io.to(user.room)
+          io.in(user.room)
             .emit("user:update", { id: data.id, role: "host" });
         } else if (data.text == "!start") {
           io.to(user.room).emit(
@@ -103,11 +103,11 @@ io.on("connection", sock => {
   sock.on("disconnect", () => {
     const user = users.remove(sock.id);
     if (user) {
-      io.to(user.room).emit(
+      io.in(user.room).emit(
         "message:new",
         message("主持", `${user.name} 離開房間`)
       );
-      io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
+      io.in(user.room).emit("users:update", users.getUsersByRoom(user.room));
     }
   });
 });
