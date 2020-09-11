@@ -21,56 +21,53 @@ const message = (name, text, id) => {
 
 app.use(express.static(publicPath));
 
-io.on(
-    "connection",
-    (sock) => {
-        console.dir("IO connection <-");
+io.on("connection", (sock) => {
+  console.dir("IO connection <-");
 
-        sock.on("join", (user, cb) => {
-            if (!user.name || !user.room) {
-                return cb("Enter valid user data");
-            } else {
-                cb({userId: sock.id});
-                sock.join(user.room);
+  sock.on("join", (user, cb) => {
+      if (!user.name || !user.room) {
+          return cb("Enter valid user data");
+      } else {
+          cb({userId: sock.id});
+          sock.join(user.room);
 
-                users.remove(sock.id);
-                users.add(sock.id, user.name, user.room);
+          users.remove(sock.id);
+          users.add(sock.id, user.name, user.room);
 
-                io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
-                sock.emit("message:new", message("主持", `welcome, ${user.name}`));
-                sock.broadcast.to(user.room).emit("message:new", message("主持", `${user.name} joined`));
-                
-            }
-        });
+          io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
+          sock.emit("message:new", message("主持", `welcome, ${user.name}`));
+          sock.broadcast.to(user.room).emit("message:new", message("主持", `${user.name} 進入房間`));
 
-        sock.on("message:create", (data, cb) => {
-            if (!data) {
-                cb("message cant be empty");
-            } else {
-                const user = users.get(sock.id);
-                if (user) {
-                    io.to(user.room).emit("message:new", message(data.name, data.text, data.id))
-                }
-                cb();
-            }
-            console.log(data.text);
-        });
+      }
+  });
 
-        sock.on("disconnect", () => {
-            const user = users.remove(sock.id);
-            if (user) {
-                io.to(user.room).emit(
-                    "message:new", 
-                    message("主持", `${user.name} left the chat`)
-                );
-                io.to(user.room).emit(
-                    "users:update", 
-                    users.getUsersByRoom(user.room)
-                );
-            }
-        });
-    }
-);
+  sock.on("message:create", (data, cb) => {
+      if (!data) {
+          cb("message cant be empty");
+      } else {
+          const user = users.get(sock.id);
+          if (user) {
+              io.to(user.room).emit("message:new", message(data.name, data.text, data.id))
+          }
+          cb();
+      }
+      console.log(data.text);
+  });
+
+  sock.on("disconnect", () => {
+      const user = users.remove(sock.id);
+      if (user) {
+          io.to(user.room).emit(
+              "message:new", 
+              message("主持", `${user.name} 離開房間`)
+          );
+          io.to(user.room).emit(
+              "users:update", 
+              users.getUsersByRoom(user.room)
+          );
+      }
+  });
+});
 
 server.listen(
     port,

@@ -8,7 +8,7 @@ Vue.component("chat-message",{
             :class="{'owner': message.id == user.id}"
         >
             <div class="message-content z-depth-1">
-                {{ message.name}} : {{message.text }}
+                {{ message.name }} : {{ message.text }}
             </div>
         </div>
     `
