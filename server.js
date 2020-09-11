@@ -32,7 +32,7 @@ io.on("connection", sock => {
       sock.join(user.room);
 
       users.remove(sock.id);
-      users.add(sock.id, user.name, user.room, );
+      users.add(sock.id, user.name, user.room, '已坐下', '平民');
 
       io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
       sock.emit("message:new", message("主持", `歡迎, ${user.name}`));
