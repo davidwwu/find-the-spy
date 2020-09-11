@@ -35,7 +35,7 @@
           >
             {{ u.name }} ({{ u.status }})
           </a>
-          <span class="new badge">{{ u.status === '已坐下' ? '站起' : '坐下' }}</span>
+          <span class="new badge">{{ user.status === '已坐下' ? '站起' : '坐下' }}</span>
         </div>
         <div class="chat-messages" ref="messages">
           <chat-message

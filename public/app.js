@@ -67,7 +67,8 @@ new Vue({
         console.error(data);
       } else {
         this.user.id = data.userId;
-        this.user.
+        this.user.status = data.userStatus;
+        this.user.role = data.userRole;
         this.initializeConnection();
       }
     });

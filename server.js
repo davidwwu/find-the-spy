@@ -28,11 +28,13 @@ io.on("connection", sock => {
     if (!user.name || !user.room) {
       return cb("Enter valid user data");
     } else {
-      cb({ userId: sock.id });
+      let userStatus;
+      users.getUsersByRoom(user.room).length <= 7 ? userStatus = '已坐下' : userStatus = '圍觀';
+      cb({ userId: sock.id, userStatus, userRole: '平民' });
       sock.join(user.room);
 
       users.remove(sock.id);
-      users.add(sock.id, user.name, user.room, '已坐下', '平民');
+      users.add(sock.id, user.name, user.room, userStatus, '平民');
 
       io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
       sock.emit("message:new", message("主持", `歡迎, ${user.name}`));
