@@ -54,7 +54,8 @@ new Vue({
       });
     },
     updateUser(event) {
-      this.user.status = event.target.innerHTML === '坐下' ? '圍觀' : '已坐下';
+      console.log(event.target.inner);
+      this.user.status = event.target.innerHTML === '站起' ? '圍觀' : '已坐下';
       socket.emit("user:update", this.user, err => {
         if (err) {
           console.error(err);

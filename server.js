@@ -54,7 +54,12 @@ io.on("connection", sock => {
     console.log(data.text);
   });
   
-  sock.on("user:update")
+  sock.on("user:update", (user, cb) => {
+    users.update(user);
+    io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
+    
+    cb();
+  });
 
   sock.on("disconnect", () => {
     const user = users.remove(sock.id);
