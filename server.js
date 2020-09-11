@@ -50,18 +50,17 @@ io.on("connection", sock => {
       const user = users.get(sock.id);
       if (user) {
         // handel system requests
-        switch (data.text) {
-          case '!makeHost':
-            socket.emit("user:update", {id: data.id, role: 'host'});
-            break;
-          case '!start':
-            
-          case '!end':
-            
-          case data.text.indexOf('!players'):
-            playerLimit = 1;
-          default:
-            io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+        if (data.text == '!makeHost') {
+          socket.emit("user:update", {id: data.id, role: 'host'});
+        } else if (data.text == '!start') {
+          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+        } else if (data.text == '!end') {
+          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+        } else if (data.text.indexOf('!players') >= 0) {
+          
+          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+        } else {
+          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
         }
       }
       cb();
