@@ -3,16 +3,19 @@ class Users {
     this.users = [];
   }
 
-  add(id, name, room, role) {
-    this.users.push({ id, name, room, role });
+  add(id, name, room, status, role) {
+    this.users.push({ id, name, room, status, role });
   }
 
   get(id) {
     return this.users.find(u => u.id === id);
   }
   
-  update(id) {
-    
+  update(newUserInfo) {
+    this.get(newUserInfo.id).name = newUserInfo.name;
+    this.get(newUserInfo.id).room = newUserInfo.room;
+    this.get(newUserInfo.id).status = newUserInfo.status;
+    this.get(newUserInfo.id).role = newUserInfo.role;
   }
 
   remove(id) {

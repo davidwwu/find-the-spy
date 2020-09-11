@@ -18,7 +18,7 @@
             v-for="u in users"
             :class="{'active': u.id == user.id}"
           >
-            {{u.name}}
+            {{ u.name }} ({{ u.status }})
           </a>
         </div>
         <div class="chat-messages" ref="messages">

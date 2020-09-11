@@ -32,7 +32,7 @@ io.on("connection", sock => {
       sock.join(user.room);
 
       users.remove(sock.id);
-      users.add(sock.id, user.name, user.room);
+      users.add(sock.id, user.name, user.room, );
 
       io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
       sock.emit("message:new", message("主持", `歡迎, ${user.name}`));
@@ -48,10 +48,7 @@ io.on("connection", sock => {
     } else {
       const user = users.get(sock.id);
       if (user) {
-        io.to(user.room).emit(
-          "message:new",
-          message(data.name, data.text, data.id)
-        );
+        io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
       }
       cb();
     }
@@ -61,10 +58,7 @@ io.on("connection", sock => {
   sock.on("disconnect", () => {
     const user = users.remove(sock.id);
     if (user) {
-      io.to(user.room).emit(
-        "message:new",
-        message("主持", `${user.name} 離開房間`)
-      );
+      io.to(user.room).emit("message:new", message("主持", `${user.name} 離開房間`));
       io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
     }
   });
