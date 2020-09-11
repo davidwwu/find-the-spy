@@ -54,6 +54,15 @@ io.on("connection", sock => {
           socket.emit("user:update", {id: data.id, role: 'host'});
         } else if (data.text == '!start') {
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+          if (users.getUsersByRoom(user.room).length < 4) {
+            io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
+          } else {
+            if (users.getUsersByRoom(user.room).length >= 4 && users.getUsersByRoom(user.room).length < 4) {
+              io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
+            } else if (users.getUsersByRoom(user.room).length == 5) {
+              io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
+            }
+          }
         } else if (data.text == '!end') {
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
         } else if (data.text.indexOf('!players') >= 0) {
