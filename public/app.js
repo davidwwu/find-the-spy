@@ -41,6 +41,7 @@ new Vue({
       });
     },
     initializeConnection() {
+      M.AutoInit();
       socket.on("users:update", users => {
         this.users = [...users];
       });
