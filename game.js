@@ -1,7 +1,7 @@
 class Game {
-  constructor() {
+  constructor(room) {
     this.needPlayers = 4;
-    this.room;
+    this.room = room;
     this.gameInProgress = false;
     this.players = [];
     this.gameSetup = {
@@ -16,7 +16,6 @@ class Game {
       return false;
     } else {
       this.players = [...playerList];
-      this.room = 
       if (playerList.length == 4) {
         this.gameSetup['平民'] = 3;
         this.gameSetup['臥底'] = 1;
@@ -76,6 +75,6 @@ class Game {
   }
 }
 
-module.exports = function(needPlayers) {
-  return new Game(needPlayers);
+module.exports = function(room) {
+  return new Game(room);
 };
