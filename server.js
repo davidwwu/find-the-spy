@@ -22,8 +22,6 @@ const message = (name, text, id) => {
 app.use(express.static(publicPath));
 
 io.on("connection", sock => {
-  console.dir("IO connection <-");
-
   sock.on("join", (user, cb) => {
     if (!user.name || !user.room) {
       return cb("Enter valid user data");
@@ -55,6 +53,8 @@ io.on("connection", sock => {
     }
     console.log(data.text);
   });
+  
+  sock.on("user:update")
 
   sock.on("disconnect", () => {
     const user = users.remove(sock.id);

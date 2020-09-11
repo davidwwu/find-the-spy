@@ -47,14 +47,21 @@ new Vue({
       };
       socket.emit("message:create", message, err => {
         if (err) {
-          console.log(err);
+          console.error(err);
         } else {
           this.message = "";
         }
       });
     },
     updateUser(event) {
-      if(event.target.innerHTML === )
+      this.user.status = event.target.innerHTML === '坐下' ? '圍觀' : '已坐下';
+      socket.emit("user:update", this.user, err => {
+        if (err) {
+          console.error(err);
+        } else {
+          
+        }
+      });
     }
   },
   created() {
