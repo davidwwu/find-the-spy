@@ -30,6 +30,10 @@ class Users {
   getUsersByRoom(room) {
     return this.users.filter(u => u.room === room);
   }
+  
+  getReadyPlayersByRoom(room) {
+    return this.users.filter(u => u.room === room && u.status === '已坐下');
+  }
 }
 
 module.exports = function() {

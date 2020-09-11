@@ -49,18 +49,19 @@ io.on("connection", sock => {
     } else {
       const user = users.get(sock.id);
       if (user) {
+        const players = users.getReadyPlayersByRoom(user.room).length;
         // handel system requests
         if (data.text == '!makeHost') {
           socket.emit("user:update", {id: data.id, role: 'host'});
         } else if (data.text == '!start') {
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
-          if (users.getUsersByRoom(user.room).length < 4) {
+          if (players < 4) {
             io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
           } else {
-            if (users.getUsersByRoom(user.room).length >= 4 && users.getUsersByRoom(user.room).length < 4) {
-              io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
-            } else if (users.getUsersByRoom(user.room).length == 5) {
-              io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
+            if (players == 4) {
+              io.to(user.room).emit("message:new", message("主持", `3 平民, 1 臥底`));
+            } else if (players >= 5 && players < 9) {
+              io.to(user.room).emit("message:new", message("主持", `${players - 2} 平民, 1 臥底, 1 白板`));
             }
           }
         } else if (data.text == '!end') {
