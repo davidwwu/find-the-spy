@@ -19,6 +19,8 @@ const message = (name, text, id) => {
   };
 };
 
+let playerLimit = 7;
+
 app.use(express.static(publicPath));
 
 io.on("connection", sock => {
@@ -55,6 +57,9 @@ io.on("connection", sock => {
           case '!start':
             
           case '!end':
+            
+          case data.text.indexOf('!players'):
+            playerLimit = 1;
           default:
             io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
         }
