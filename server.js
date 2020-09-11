@@ -37,34 +37,31 @@ io.on(
                 users.add(sock.id, user.name, user.room);
 
                 io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
-                sock.emit("message:new", message("admin", `welcome, ${user.name}`));
-                sock.broadcast.to(user.room).emit("message:new", message("Admin", `${user.name} joined`));
+                sock.emit("message:new", message("主持", `welcome, ${user.name}`));
+                sock.broadcast.to(user.room).emit("message:new", message("主持", `${user.name} joined`));
                 
             }
         });
 
-        sock.on(
-            "message:create",
-            (data, cb) => {
-                if (!data) {
-                    cb("message cant be empty");
-                } else {
-                    const user = users.get(sock.id);
-                    if (user) {
-                        io.to(user.room).emit("message:new", message(data.name, data.text, data.id))
-                    }
-                    cb();
+        sock.on("message:create", (data, cb) => {
+            if (!data) {
+                cb("message cant be empty");
+            } else {
+                const user = users.get(sock.id);
+                if (user) {
+                    io.to(user.room).emit("message:new", message(data.name, data.text, data.id))
                 }
-                console.log(data.text);
+                cb();
             }
-        );
+            console.log(data.text);
+        });
 
-        sock.on("disconnect", ()=>{
+        sock.on("disconnect", () => {
             const user = users.remove(sock.id);
             if (user) {
                 io.to(user.room).emit(
                     "message:new", 
-                    message("admin", `${user.name} left the chat`)
+                    message("主持", `${user.name} left the chat`)
                 );
                 io.to(user.room).emit(
                     "users:update", 
