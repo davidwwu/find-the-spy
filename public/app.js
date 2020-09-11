@@ -21,7 +21,9 @@ new Vue({
     messages: [],
     user: {
       name: "",
-      room: ""
+      room: "",
+      status: "",
+      role: ""
     },
     users: []
   },
@@ -41,7 +43,6 @@ new Vue({
       });
     },
     initializeConnection() {
-      M.AutoInit();
       socket.on("users:update", users => {
         this.users = [...users];
       });
@@ -61,6 +62,9 @@ new Vue({
     console.log(this.user);
   },
   mounted() {
+    // init materialize component
+    M.AutoInit();
+    console.log("mounted");
     socket.emit("join", this.user, data => {
       if (typeof data == "string") {
         console.error(data);
