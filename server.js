@@ -48,7 +48,7 @@ io.on("connection", sock => {
     } else {
       const user = users.get(sock.id);
       if (user) {
-        const players = users.getReadiedPlayersByRoom(user.room).length;
+        const players = users.getReadiedPlayersByRoom(user.room);
         // handel system requests
         if (data.text == "!makeHost") {
           io.to(user.room)
@@ -58,27 +58,27 @@ io.on("connection", sock => {
             "message:new",
             message(data.name, data.text, data.id)
           );
-          if (players < 4) {
+          if (players.length < 4) {
             io.to(user.room).emit(
               "message:new",
               message("主持", `玩家人數不足 4 人`)
             );
           } else {
-            if (players == 4) {
+            if (players.length == 4) {
               io.to(user.room).emit(
                 "message:new",
                 message("主持", `3 平民, 1 臥底`)
               );
               players.forEach( p => {
-                io.to(user.room).emit(
+                sock.broadcast.to(user.room).emit(
                   "message:new",
-                  message("主持", `玩家人數不足 4 人`)
+                  message("主持", `your card`, p.id)
                 );
               });
-            } else if (players >= 5 && players < 9) {
+            } else if (players.length >= 5 && players.length < 9) {
               io.to(user.room).emit(
                 "message:new",
-                message("主持", `${players - 2} 平民, 1 臥底, 1 白板`)
+                message("主持", `${players.length - 2} 平民, 1 臥底, 1 白板`)
               );
             }
           }
