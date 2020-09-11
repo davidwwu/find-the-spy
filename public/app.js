@@ -28,6 +28,17 @@ new Vue({
     users: []
   },
   methods: {
+    initializeConnection() {
+      socket.on("users:update", users => {
+        this.users = [...users];
+      });
+
+      socket.on("message:new", message => {
+        this.messages.push(message);
+        scrollToBottom(this.$refs.messages);
+      });
+      scrollToBottom(this.$refs.messages);
+    },
     sendMessage() {
       const message = {
         text: this.message,
@@ -42,23 +53,15 @@ new Vue({
         }
       });
     },
-    initializeConnection() {
-      socket.on("users:update", users => {
-        this.users = [...users];
-      });
-
-      socket.on("message:new", message => {
-        this.messages.push(message);
-        scrollToBottom(this.$refs.messages);
-      });
-      scrollToBottom(this.$refs.messages);
+    updateUser(event) {
+      if(event.target.innerHTML === )
     }
   },
   created() {
     const params = window.location.search.split("&");
     const name = decodeURIComponent(params[0].split("=")[1]);
     const room = params[1].split("=")[1];
-    
+
     this.user = { name, room };
   },
   mounted() {
