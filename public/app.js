@@ -58,17 +58,17 @@ new Vue({
     const params = window.location.search.split("&");
     const name = decodeURIComponent(params[0].split("=")[1]);
     const room = params[1].split("=")[1];
+    
+    this.user = { name, room };
   },
   mounted() {
     // init materialize component
     M.AutoInit();
     socket.emit("join", this.user, data => {
-      if (typeof data == "string") {
+      if (data.status === "error") {
         console.error(data);
       } else {
         this.user.id = data.userId;
-        this.user.status = data.userStatus;
-        this.user.role = data.userRole;
         this.initializeConnection();
       }
     });

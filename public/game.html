@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="./materialize/mat.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="styles.css" />
+    
+
+    <script src="./materialize/mat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="./app.js"></script>
     <title>誰是臥底</title>
   </head>
   <body>
@@ -34,8 +40,8 @@
             :class="{'active': u.id == user.id}"
           >
             {{ u.name }} ({{ u.status }})
+            <span class="new badge">{{ u.status === '已坐下' ? '站起' : '坐下' }}</span>
           </a>
-          <span class="new badge">{{ user.status === '已坐下' ? '站起' : '坐下' }}</span>
         </div>
         <div class="chat-messages" ref="messages">
           <chat-message
@@ -68,10 +74,5 @@
         </button>
       </div>
     </div>
-
-    <script src="./materialize/mat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="socket.io/socket.io.js"></script>
-    <script src="./app.js"></script>
   </body>
 </html>
