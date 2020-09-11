@@ -30,7 +30,7 @@ io.on("connection", sock => {
       sock.join(user.room);
 
       users.remove(sock.id);
-      let userStatus = users.getReadiedPlayersByRoom(user.room).length <= 4 ? '已坐下' : '圍觀';
+      let userStatus = users.getReadiedPlayersByRoom(user.room).length < 4 ? '已坐下' : '圍觀';
       users.add(sock.id, user.name, user.room, userStatus, '平民');
 
       io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
