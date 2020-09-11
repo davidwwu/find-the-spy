@@ -31,6 +31,7 @@ new Vue({
     initializeConnection() {
       socket.on("users:update", users => {
         this.users = [...users];
+        // count down when players are joined
       });
 
       socket.on("message:new", message => {
@@ -53,7 +54,7 @@ new Vue({
         }
       });
     },
-    updateUser(event) {
+    updateUserStatus(event) {
       this.user.status = event.target.innerText === '站起' ? '圍觀' : '已坐下';
       socket.emit("user:update", this.user, err => {
         if (err) {

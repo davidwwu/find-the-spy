@@ -48,6 +48,16 @@ io.on("connection", sock => {
       const user = users.get(sock.id);
       if (user) {
         io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+        
+        // handel system requests
+        switch (data.text) {
+            case
+        }
+        if (data.text == '!start') {
+
+        } else if (data.text == '!makeHost') {
+          
+        }
       }
       cb();
     }

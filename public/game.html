@@ -39,7 +39,7 @@
             {{ u.name }} ({{ u.status }})
             <span
               class="btn badge grey lighten-5"
-              @click="updateUser"
+              @click="updateUserStatus"
               v-if="u.id == user.id"
             >
               {{ u.status === '已坐下' ? '站起' : '坐下' }}
