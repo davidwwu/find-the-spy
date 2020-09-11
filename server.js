@@ -19,8 +19,6 @@ const message = (name, text, id) => {
   };
 };
 
-let playerLimit = 7;
-
 app.use(express.static(publicPath));
 
 io.on("connection", sock => {
@@ -32,7 +30,7 @@ io.on("connection", sock => {
       sock.join(user.room);
 
       users.remove(sock.id);
-      let userStatus = users.getUsersByRoom(user.room).length <= 7 ? '已坐下' : '圍觀';
+      let userStatus = users.getReadiedPlayersByRoom(user.room).length <= 4 ? '已坐下' : '圍觀';
       users.add(sock.id, user.name, user.room, userStatus, '平民');
 
       io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
@@ -49,7 +47,7 @@ io.on("connection", sock => {
     } else {
       const user = users.get(sock.id);
       if (user) {
-        const players = users.getReadyPlayersByRoom(user.room).length;
+        const players = users.getReadiedPlayersByRoom(user.room).length;
         // handel system requests
         if (data.text == '!makeHost') {
           socket.emit("user:update", {id: data.id, role: 'host'});
@@ -65,9 +63,6 @@ io.on("connection", sock => {
             }
           }
         } else if (data.text == '!end') {
-          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
-        } else if (data.text.indexOf('!players') >= 0) {
-          
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
         } else {
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));

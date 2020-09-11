@@ -31,7 +31,7 @@ class Users {
     return this.users.filter(u => u.room === room);
   }
   
-  getReadyPlayersByRoom(room) {
+  getReadiedPlayersByRoom(room) {
     return this.users.filter(u => u.room === room && u.status === '已坐下');
   }
 }
