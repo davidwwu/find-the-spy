@@ -5,31 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./materialize/mat.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="styles.css" />
     <title>誰是臥底</title>
   </head>
   <body>
     <div id="app">
-      <nav>
+      <nav class="deep-purple darken-1">
         <div class="nav-wrapper">
-          <a href="#!" class="brand-logo">Logo</a>
-          <a href="#" data-target="mobile-demo" class="sidenav-trigger"
-            ><i class="material-icons">menu</i></a
-          >
+          <span class="brand-logo">Logo</span>
+          <a href="#" data-target="mobile-menu" class="sidenav-trigger">
+            <i class="material-icons">menu</i>
+          </a>
           <ul class="right hide-on-med-and-down">
-            <li><a href="sass.html">Sass</a></li>
-            <li><a href="badges.html">Components</a></li>
-            <li><a href="collapsible.html">Javascript</a></li>
-            <li><a href="mobile.html">Mobile</a></li>
+            <li><a href="index.html">離開房間</a></li>
           </ul>
         </div>
       </nav>
 
-      <ul class="sidenav" id="mobile-demo">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
+      <ul class="sidenav" id="mobile-menu">
+        <li><a href="index.html">離開房間</a></li>
       </ul>
       <div class="chat">
         <div class="chat-users collection">
@@ -72,7 +67,7 @@
         </button>
       </div>
     </div>
-    
+
     <script src="./materialize/mat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="socket.io/socket.io.js"></script>
