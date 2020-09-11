@@ -51,7 +51,7 @@ io.on("connection", sock => {
         const players = users.getReadiedPlayersByRoom(user.room).length;
         // handel system requests
         if (data.text == "!makeHost") {
-          io.in(user.room)
+          io.to(user.room)
             .emit("user:update", { id: data.id, role: "host" });
         } else if (data.text == "!start") {
           io.to(user.room).emit(
@@ -69,6 +69,12 @@ io.on("connection", sock => {
                 "message:new",
                 message("主持", `3 平民, 1 臥底`)
               );
+              players.forEach( p => {
+                io.to(user.room).emit(
+                  "message:new",
+                  message("主持", `玩家人數不足 4 人`)
+                );
+              });
             } else if (players >= 5 && players < 9) {
               io.to(user.room).emit(
                 "message:new",
@@ -103,11 +109,11 @@ io.on("connection", sock => {
   sock.on("disconnect", () => {
     const user = users.remove(sock.id);
     if (user) {
-      io.in(user.room).emit(
+      io.to(user.room).emit(
         "message:new",
         message("主持", `${user.name} 離開房間`)
       );
-      io.in(user.room).emit("users:update", users.getUsersByRoom(user.room));
+      io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
     }
   });
 });
