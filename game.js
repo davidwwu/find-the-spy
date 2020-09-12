@@ -55,15 +55,12 @@ module.exports = class Game {
   
   evaluate() {
     if(this.gameSetup['臥底'] == 0 && this.gameSetup['白板'] == 0) {
-      // 平民獲勝
       this.endGame();
       return '平民獲勝';
     } else if(this.gameSetup['臥底'] == 0 && this.gameSetup['白板'] != 0) {
-      // 白板獲勝
       this.endGame();
       return '白板獲勝';
-    } else if(this.gameSetup['平民'] == this.gameSetup['臥底'] + 1) {
-      // 臥底獲勝
+    } else if(this.gameSetup['臥底'] > 0 && this.gameSetup['臥底'] == this.gameSetup['平民']) {
       this.endGame();
       return '臥底獲勝';
     }
