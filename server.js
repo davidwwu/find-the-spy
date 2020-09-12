@@ -75,7 +75,14 @@ io.on("connection", sock => {
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
           io.to(user.room).emit("message:new", message("主持", `${playerNameToEliminate} 出局`));
           
-          users.update({ id: data.id, role: "出局" });
+          for(let i = 0; i < players.length; i++) {
+            if(players[i].name == playerNameToEliminate && players[i].status == '已坐下') {
+              players[i].role = "出局"
+              users.update(players[i]);
+              break;
+            }
+          }
+          
           io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
           io.to(user.room).emit(
             "message:new",
