@@ -1,4 +1,4 @@
-class Game {
+module.exports = class Game {
   constructor(room) {
     this.needPlayers = 4;
     this.room = room || null;
@@ -14,6 +14,8 @@ class Game {
                         ['高血糖', '高血壓'], ['化妝', '整形'], ['梁山伯與祝英台', '羅密歐與茱麗葉'],
                         ['摩托車', '電動車'], ['口紅', '唇膏'], ['餃子', '包子'],
                         ['彼得', '約翰'], ['團契', '主日崇拜']];
+    
+    console.log("game init..");
   }
   
   setRoom(room) {
@@ -76,7 +78,3 @@ class Game {
     };
   }
 }
-
-module.exports = function(room) {
-  return new Game(room);
-};

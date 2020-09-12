@@ -3,6 +3,7 @@ const socket = require("socket.io");
 const path = require("path");
 const http = require("http");
 const users = require("./user")();
+const Game = require("./game");
 
 const publicPath = path.join(__dirname, "./public");
 const port = process.env.PORT || 3000;
@@ -20,6 +21,8 @@ const message = (name, text, id) => {
 };
 
 app.use(express.static(publicPath));
+
+let game = new Game();
 
 io.on("connection", sock => {
   sock.on("join", (user, cb) => {
