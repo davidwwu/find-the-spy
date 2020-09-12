@@ -15,7 +15,7 @@ module.exports = class Game {
                         ['摩托車', '電動車'], ['口紅', '唇膏'], ['餃子', '包子'],
                         ['彼得', '約翰'], ['團契', '主日崇拜']];
     
-    console.log("game init..");
+    console.log(`game initialized for ${this.room}.`);
   }
   
   setRoom(room) {
@@ -46,6 +46,7 @@ module.exports = class Game {
       }
       this.gameInProgress = true;
     }
+    return this.gameSetup;
   }
   
   isGameInProgress() {

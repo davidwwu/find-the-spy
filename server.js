@@ -22,8 +22,6 @@ const message = (name, text, id) => {
 
 app.use(express.static(publicPath));
 
-let game = new Game();
-
 io.on("connection", sock => {
   sock.on("join", (user, cb) => {
     if (!user.name || !user.room) {
@@ -58,44 +56,26 @@ io.on("connection", sock => {
           io.to(user.room)
             .emit("user:update", { id: data.id, role: "host" });
         } else if (data.text == "!start") {
-          io.to(user.room).emit(
-            "message:new",
-            message(data.name, data.text, data.id)
-          );
+          io.to(user.room).emit("message:new", message(data.name, data.text, data.id) );
           if (players.length < 4) {
-            io.to(user.room).emit(
-              "message:new",
-              message("主持", `玩家人數不足 4 人`)
-            );
+            io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
           } else {
+            const game = new Game(user.room);
+            game.startGame(players);
+            
             if (players.length == 4) {
-              io.to(user.room).emit(
-                "message:new",
-                message("主持", `3 平民, 1 臥底`)
-              );
+              io.to(user.room).emit("message:new", message("主持", `3 平民, 1 臥底`));
               players.forEach( p => {
-                sock.broadcast.to(user.room).emit(
-                  "message:new",
-                  message("主持", `your card`, p.id)
-                );
+                sock.broadcast.to(user.room).emit("message:new", message("主持", `your card`, p.id));
               });
             } else if (players.length >= 5 && players.length < 9) {
-              io.to(user.room).emit(
-                "message:new",
-                message("主持", `${players.length - 2} 平民, 1 臥底, 1 白板`)
-              );
+              io.to(user.room).emit("message:new", message("主持", `${players.length - 2} 平民, 1 臥底, 1 白板`));
             }
           }
         } else if (data.text == "!end") {
-          io.to(user.room).emit(
-            "message:new",
-            message(data.name, data.text, data.id)
-          );
+          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
         } else {
-          io.to(user.room).emit(
-            "message:new",
-            message(data.name, data.text, data.id)
-          );
+          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
         }
       }
       cb();
