@@ -53,20 +53,27 @@ io.on("connection", sock => {
         const players = users.getReadiedPlayersByRoom(user.room);
         // handel system requests
         if (data.text == "!makeHost") {
-          // TODO: not working
-          io.to(user.room).emit("user:update", { id: data.id, role: "host" });
+          user.role = "主持"
+          users.update(user);
+          
+          io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
+          io.to(user.room).emit("message:new", message("主持", `${user.name} 已成為遊戲主持`));
         } else if (data.text == "!start") {
-          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
-          if (players.length < 4) {
-            io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
+          if (game.isGameInProgress) {
+            io.to(user.room).emit("message:new", message("主持", '本輪遊戲尚未結束'));
           } else {
-            game = new Game(user.room);
-            let gameSetup = game.startGame(players);
-            
-            io.to(user.room).emit(
-              "message:new",
-              message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
-            );
+            io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+            if (players.length < 4) {
+              io.to(user.room).emit("message:new", message("主持", '玩家人數不足 4 人'));
+            } else {
+              game = new Game(user.room);
+              let gameSetup = game.startGame(players);
+
+              io.to(user.room).emit(
+                "message:new",
+                message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
+              );
+            }
           }
         } else if (data.text.indexOf("!vote") >= 0) {
           let playerNameToEliminate = data.text.split('-')[1].trim();
@@ -92,11 +99,12 @@ io.on("connection", sock => {
           if (!game.isGameInProgress) {
             io.to(user.room).emit("message:new", message("主持", `平民的詞是 ${game.evaluate()}, 臥底的詞是`));
             io.to(user.room).emit("message:new", message("主持", `${game.evaluate()} 是臥底, 是白板`));
-            io.to(user.room).emit("message:new", message("主持", `本輪遊戲結束`));
+            io.to(user.room).emit("message:new", message("主持", '本輪遊戲結束'));
           }
         } else if (data.text == "!end") {
           game.endGame();
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+          io.to(user.room).emit("message:new", message("主持", '本輪遊戲結束'));
         } else {
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
         }
