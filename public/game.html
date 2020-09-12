@@ -42,7 +42,7 @@
               @click="updateUserStatus"
               v-if="u.id == user.id"
             >
-              {{ u.status === '已坐下' ? '站起' : '坐下' }}
+              {{ u.status === '已坐下' || u.status === '出局' ? '站起' : '坐下' }}
             </span>
           </a>
         </div>
