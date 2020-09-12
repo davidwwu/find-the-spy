@@ -23,6 +23,7 @@ const message = (name, text, id) => {
 app.use(express.static(publicPath));
 
 io.on("connection", sock => {
+  let game;
   sock.on("join", (user, cb) => {
     if (!user.name || !user.room) {
       return cb("Enter valid user data");
@@ -60,18 +61,20 @@ io.on("connection", sock => {
           if (players.length < 4) {
             io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
           } else {
-            const game = new Game(user.room);
+            game = new Game(user.room);
             let gameSetup = game.startGame(players);
             
             io.to(user.room).emit(
               "message:new",
-              message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
+              message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)ㄤ
             );
           }
         } else if (data.text.indexOf("!vote") >= 0) {
-          data.text.split('-')[1].trim();
-          game.eliminate(data.text.split('-')[1].trim());
+          let playerNameToEliminate = data.text.split('-')[1].trim();
+          let gameSetup = playerNameToEliminate;
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+          io.to(user.room).emit("message:new", message("主持", `${playerNameToEliminate} 出局`));
+          io.to(user.room).emit("message:new", message("主持", `${playerNameToEliminate} 出局`));
         } else if (data.text == "!end") {
           game.endGame();
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));

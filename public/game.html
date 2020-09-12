@@ -34,7 +34,7 @@
           <a
             class="collection-item"
             v-for="u in users"
-            :class="{'active': u.id == user.id}"
+            :class="{'active': u.id == user.id, 'strike-through': u.status == '出局'}"
           >
             {{ u.name }} ({{ u.status }}) {{ u.role != undefined ? u.role : '' }}
             <span
@@ -42,7 +42,7 @@
               @click="updateUserStatus"
               v-if="u.id == user.id"
             >
-              {{ u.status === '已坐下' || u.status === '出局' ? '站起' : '坐下' }}
+              {{ u.status == '已坐下' || u.status == '出局' ? '站起' : '坐下' }}
             </span>
           </a>
         </div>
