@@ -4,6 +4,8 @@ class Game {
     this.room = room || null;
     this.gameInProgress = false;
     this.players = [];
+    
+    this.enableWhiteboard = false;
     this.gameSetup = {
       平民: 0,
       臥底: 0,
@@ -13,6 +15,15 @@ class Game {
   
   setRoom(room) {
     this.room = room;
+  }
+  
+  toggleWhiteboard() {
+    this.enableWhiteboard = !this.enableWhiteboard;
+    return this.enableWhiteboard;
+  }
+  
+  checkWhtieboardstatus() {
+    return this.enableWhiteboard;
   }
 
   startGame(playerList) {
