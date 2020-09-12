@@ -39,8 +39,8 @@ class Game {
         this.gameSetup['臥底'] = 1;
       } else if (playerList.length >= 5 && playerList.length < 9) {
         this.gameSetup['平民'] = playerList.length - 2;
-        this.gameSetup['臥底'] = 1;
-        this.gameSetup['白板'] = 1;
+        this.gameSetup['臥底'] = this.enableWhiteboard ? 1 : 2;
+        this.gameSetup['白板'] = this.enableWhiteboard ? 1 : 0;
       }
       this.gameInProgress = true;
     }
@@ -50,8 +50,12 @@ class Game {
     return this.gameInProgress;
   }
   
-  evaluateProgress() {
-    if(this.gameSetup[''])
+  evaluate() {
+    if(this.gameSetup['臥底'] == 0 && this.gameSetup['白板'] == 0) {
+      // 平民獲勝
+    } else if(this.gameSetup['臥底'] == 0 && this.gameSetup['白板'] != 0) {
+      // 白板獲勝
+    } else if(this.gameSetup['平民'] == 0 && this.gameSetup['臥底'] == 0)
   }
   
   endGame() {
