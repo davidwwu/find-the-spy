@@ -36,6 +36,10 @@ class Game {
     return this.gameInProgress;
   }
   
+  evaluateProgress() {
+    
+  }
+  
   endGame() {
     this.gameInProgress = false;
     this.players = [];
