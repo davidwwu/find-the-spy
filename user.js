@@ -16,7 +16,8 @@ class Users {
     this.get(newUserInfo.id).room = newUserInfo.room;
     this.get(newUserInfo.id).status = newUserInfo.status;
     this.get(newUserInfo.id).role = newUserInfo.role;
-    console.log(`newUser: ${this.get(newUserInfo.id)}`);
+    console.log(`newUser: `);
+    console.log(this.get(newUserInfo.id));
   }
 
   remove(id) {

@@ -54,10 +54,9 @@ io.on("connection", sock => {
         // handel system requests
         if (data.text == "!makeHost") {
           // TODO: not working
-          io.to(user.room)
-            .emit("user:update", { id: data.id, role: "host" });
+          io.to(user.room).emit("user:update", { id: data.id, role: "host" });
         } else if (data.text == "!start") {
-          io.to(user.room).emit("message:new", message(data.name, data.text, data.id) );
+          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
           if (players.length < 4) {
             io.to(user.room).emit("message:new", message("主持", `玩家人數不足 4 人`));
           } else {
@@ -75,6 +74,9 @@ io.on("connection", sock => {
           
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
           io.to(user.room).emit("message:new", message("主持", `${playerNameToEliminate} 出局`));
+          
+          users.update({ id: data.id, role: "出局" });
+          io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
           io.to(user.room).emit(
             "message:new",
             message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
