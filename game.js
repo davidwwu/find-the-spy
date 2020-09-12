@@ -1,7 +1,7 @@
 class Game {
   constructor(room) {
     this.needPlayers = 4;
-    this.room = room;
+    this.room = room || null;
     this.gameInProgress = false;
     this.players = [];
     this.gameSetup = {
@@ -9,6 +9,10 @@ class Game {
       臥底: 0,
       白板: 0
     };
+  }
+  
+  setRoom(room) {
+    this.room = room;
   }
 
   startGame(playerList) {
