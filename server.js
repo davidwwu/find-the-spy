@@ -89,6 +89,11 @@ io.on("connection", sock => {
             message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
           );
           io.to(user.room).emit("message:new", message("主持", `${game.evaluate()}`));
+          if (!game.isGameInProgress) {
+            io.to(user.room).emit("message:new", message("主持", `平民的詞是 ${game.evaluate()}, 臥底的詞是`));
+            io.to(user.room).emit("message:new", message("主持", `${game.evaluate()} 是臥底, 是白板`));
+            io.to(user.room).emit("message:new", message("主持", `本輪遊戲結束`));
+          }
         } else if (data.text == "!end") {
           game.endGame();
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
