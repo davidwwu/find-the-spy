@@ -64,8 +64,14 @@ module.exports = class Game {
     this.endGame();
   }
   
-  eliminate(player) {
-    this.gameSetup[player.role] -= 1;
+  eliminate(playerName) {
+    for(let i = 0; i < this.players.length; i++) {
+      console.log(this.gameSetup, this.players[i].role);
+      if(this.players[i].name == playerName) {
+        this.gameSetup[this.players[i].role] -= 1;
+        return this.gameSetup;
+      }
+    }
     return this.gameSetup;
   }
   

@@ -66,15 +66,18 @@ io.on("connection", sock => {
             
             io.to(user.room).emit(
               "message:new",
-              message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)ㄤ
+              message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
             );
           }
         } else if (data.text.indexOf("!vote") >= 0) {
           let playerNameToEliminate = data.text.split('-')[1].trim();
-          let gameSetup = playerNameToEliminate;
+          let gameSetup = game.eliminate(playerNameToEliminate);
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
           io.to(user.room).emit("message:new", message("主持", `${playerNameToEliminate} 出局`));
-          io.to(user.room).emit("message:new", message("主持", `${playerNameToEliminate} 出局`));
+          io.to(user.room).emit(
+            "message:new",
+            message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
+          );
         } else if (data.text == "!end") {
           game.endGame();
           io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
