@@ -1,3 +1,8 @@
+function getRandomInt(max, min) {
+  if (min === undefined) min = 0;
+  return Math.floor(Math.random() * max) + min;
+}
+
 module.exports = class Game {
   constructor(room) {
     this.needPlayers = 4;
@@ -13,7 +18,7 @@ module.exports = class Game {
     this.answersList = [['老婆', '女朋友'], ['達美樂', '必勝客'], ['高跟鞋', '增高鞋'],
                         ['高血糖', '高血壓'], ['化妝', '整形'], ['梁山伯與祝英台', '羅密歐與茱麗葉'],
                         ['摩托車', '電動車'], ['口紅', '唇膏'], ['餃子', '包子'],
-                        ['彼得', '約翰'], ['團契', '主日崇拜']];
+                        ['彼得', '約翰'], ['團契聚會', '主日崇拜']];
     
     console.log(`game initialized for ${this.room}.`);
   }

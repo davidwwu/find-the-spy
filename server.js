@@ -68,7 +68,7 @@ io.on("connection", sock => {
             } else {
               game = new Game(user.room);
               let gameSetup = game.startGame(players);
-
+              io.to(user.room).emit("message:new", message("主持", '新遊戲已開始'));
               io.to(user.room).emit(
                 "message:new",
                 message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
@@ -89,7 +89,6 @@ io.on("connection", sock => {
               break;
             }
           }
-          
           io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
           io.to(user.room).emit(
             "message:new",
