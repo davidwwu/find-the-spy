@@ -59,7 +59,7 @@ io.on("connection", sock => {
           io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
           io.to(user.room).emit("message:new", message("主持", `${user.name} 已成為遊戲主持`));
         } else if (data.text == "!start") {
-          if (game.isGameInProgress) {
+          if (game !== undefined && game.isGameInProgress()) {
             io.to(user.room).emit("message:new", message("主持", '本輪遊戲尚未結束'));
           } else {
             io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
