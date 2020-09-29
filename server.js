@@ -22,8 +22,9 @@ const message = (name, text, id) => {
 
 app.use(express.static(publicPath));
 
+let game;
+
 io.on("connection", sock => {
-  let game;
   sock.on("join", (user, cb) => {
     if (!user.name || !user.room) {
       return cb("Enter valid user data");

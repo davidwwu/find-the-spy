@@ -10,12 +10,13 @@ module.exports = class Game {
     this.gameInProgress = false;
     this.players = [];
     this.enableWhiteboard = false;
+    this.wordOfTheRound = [];
     this.gameSetup = {
       平民: 0,
       臥底: 0,
       白板: 0
     };
-    this.answersList = [['老婆', '女朋友'], ['達美樂', '必勝客'], ['高跟鞋', '增高鞋'],
+    this.wordsList = [['老婆', '女朋友'], ['達美樂', '必勝客'], ['高跟鞋', '增高鞋'],
                         ['高血糖', '高血壓'], ['化妝', '整形'], ['梁山伯與祝英台', '羅密歐與茱麗葉'],
                         ['摩托車', '電動車'], ['口紅', '唇膏'], ['餃子', '包子'],
                         ['彼得', '約翰'], ['團契聚會', '主日崇拜']];
@@ -77,6 +78,11 @@ module.exports = class Game {
         j--;
       }
     }
+  }
+  
+  assignWord() {
+    let i = Math.floor(Math.random() * (this.wordsList.length));
+    this.wordOfTheRound = this.wordsList[Math.floor(Math.random() * (this.wordsList.length))];
   }
   
   evaluate() {
