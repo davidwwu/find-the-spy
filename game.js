@@ -49,14 +49,34 @@ module.exports = class Game {
         this.gameSetup['臥底'] = this.enableWhiteboard ? 1 : 2;
         this.gameSetup['白板'] = this.enableWhiteboard ? 1 : 0;
       }
-      
+      this.shufflePlayers();
+      this.assignRoles();
       this.gameInProgress = true;
     }
+    console.log(JSON.stringify(this.players, null))
     return this.gameSetup;
   }
   
   isGameInProgress() {
     return this.gameInProgress;
+  }
+  
+  shufflePlayers() {
+    for (let i = this.players.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [this.players[i], this.players[j]] = [this.players[j], this.players[i]];
+    }
+  }
+  
+  assignRoles() {
+    for (let role in this.gameSetup) {
+      let i = 0, j = this.gameSetup[role];
+      while (j > 0) {
+        this.players[i].role = role;
+        i++;
+        j--;
+      }
+    }
   }
   
   evaluate() {
