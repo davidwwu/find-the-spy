@@ -34,7 +34,7 @@ io.on("connection", sock => {
       users.remove(sock.id);
       let userStatus = users.getReadiedPlayersByRoom(user.room).length < 4 ? "已坐下" : "圍觀";
       let newUser = users.add(sock.id, user.name, user.room, userStatus);
-      cb({ userId: newUser.id, userStatus: newUser, isUserHost: user.isHost });
+      cb({ userId: newUser.id, userStatus: newUser.status, isUserHost: newUser.isHost });
 
       io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
       sock.emit("message:new", message("主持", `歡迎, ${user.name}`));
@@ -113,7 +113,6 @@ io.on("connection", sock => {
   });
 
   sock.on("user:update", (user, cb) => {
-    console.log("emit Called");
     users.update(user);
     io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
 
