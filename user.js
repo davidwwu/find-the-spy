@@ -1,10 +1,10 @@
 class User {
-  constructor(id, name, room, status, role) {
+  constructor(id, name, room, status, isHost) {
     this.id = id;
     this.name = name;
     this.room = room;
     this.status = status;
-    this.role = role;
+    this.isHost = isHost || false;
   }
   
   toggleSitStand() {
@@ -18,8 +18,8 @@ class Users {
     this.users = [];
   }
 
-  add(id, name, room, status, role) {
-    this.users.push(new User(id, name, room, status, role));
+  add(id, name, room, status, isHost) {
+    this.users.push(new User(id, name, room, status, isHost));
   }
 
   get(id) {
@@ -31,7 +31,11 @@ class Users {
     user.name = newUserInfo.name;
     user.room = newUserInfo.room;
     user.status = newUserInfo.status;
-    user.role = newUserInfo.role;
+    user.isHost = newUserInfo.isHost;
+  }
+  
+  makeHost(id) {
+    this.get(id).isHost = true;
   }
   
   toggleSitStand(id) {
