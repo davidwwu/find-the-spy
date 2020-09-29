@@ -1,3 +1,17 @@
+class User {
+  constructor(id, name, room, status, role) {
+    this.id = id;
+    this.name = name;
+    this.room = room;
+    this.status = status;
+    this.role = role;
+  }
+  
+  toggleSitStand() {
+    
+  }
+}
+
 class Users {
   constructor() {
     this.users = [];
