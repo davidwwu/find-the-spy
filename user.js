@@ -1,6 +1,5 @@
 class User {
-  constructor(id, name, room, status, role) {
-    this.id = id;
+  constructor(name, room, status, role) {
     this.name = name;
     this.room = room;
     this.status = status;
@@ -8,21 +7,22 @@ class User {
   }
   
   toggleSitStand() {
-    
+    if (this.status == '已坐下') this.status = '圍觀';
+    else this.status = '已坐下';
   }
 }
 
 class Users {
   constructor() {
-    this.users = [];
+    this.users = {};
   }
 
   add(id, name, room, status, role) {
-    this.users.push({ id, name, room, status, role });
+    this.users[id] = new User(name, room, status, role);
   }
 
   get(id) {
-    return this.users.find(u => u.id === id);
+    return this.users[id];
   }
   
   update(newUserInfo) {
