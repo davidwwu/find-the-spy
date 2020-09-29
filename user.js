@@ -1,6 +1,6 @@
-// User is private
 class User {
-  constructor(name, room, status, role) {
+  constructor(id, name, room, status, role) {
+    this.id = id;
     this.name = name;
     this.room = room;
     this.status = status;
@@ -8,33 +8,38 @@ class User {
   }
   
   toggleSitStand() {
-    if (this.status == '已坐下') this.status = '圍觀';
-    else this.status = '已坐下';
+    if (this.status ==)
   }
 }
 
 class Users {
   constructor() {
-    this.users = {};
+    this.users = [];
   }
 
   add(id, name, room, status, role) {
-    this.users[id] = new User(name, room, status, role);
+    this.users.push({ id, name, room, status, role });
   }
 
   get(id) {
-    return this.users[id];
+    return this.users.find(u => u.id === id);
   }
   
   update(newUserInfo) {
-    this.users(newUserInfo.id).name = newUserInfo.name;
-    this.users(newUserInfo.id).room = newUserInfo.room;
-    this.users(newUserInfo.id).status = newUserInfo.status;
-    this.users(newUserInfo.id).role = newUserInfo.role;
+    this.get(newUserInfo.id).name = newUserInfo.name;
+    this.get(newUserInfo.id).room = newUserInfo.room;
+    this.get(newUserInfo.id).status = newUserInfo.status;
+    this.get(newUserInfo.id).role = newUserInfo.role;
+    console.log(`newUser: `);
+    console.log(this.get(newUserInfo.id));
   }
 
   remove(id) {
-    delete this.users[id];
+    const user = this.get(id);
+    if (user) {
+      this.users = this.users.filter(u => u.id !== user.id);
+    }
+    return user;
   }
 
   getUsersByRoom(room) {
