@@ -49,6 +49,7 @@ module.exports = class Game {
         this.gameSetup['臥底'] = this.enableWhiteboard ? 1 : 2;
         this.gameSetup['白板'] = this.enableWhiteboard ? 1 : 0;
       }
+      
       this.gameInProgress = true;
     }
     return this.gameSetup;
