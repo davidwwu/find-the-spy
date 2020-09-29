@@ -1,3 +1,4 @@
+// User is private
 class User {
   constructor(name, room, status, role) {
     this.name = name;
@@ -26,20 +27,14 @@ class Users {
   }
   
   update(newUserInfo) {
-    this.get(newUserInfo.id).name = newUserInfo.name;
-    this.get(newUserInfo.id).room = newUserInfo.room;
-    this.get(newUserInfo.id).status = newUserInfo.status;
-    this.get(newUserInfo.id).role = newUserInfo.role;
-    console.log(`newUser: `);
-    console.log(this.get(newUserInfo.id));
+    this.users(newUserInfo.id).name = newUserInfo.name;
+    this.users(newUserInfo.id).room = newUserInfo.room;
+    this.users(newUserInfo.id).status = newUserInfo.status;
+    this.users(newUserInfo.id).role = newUserInfo.role;
   }
 
   remove(id) {
-    const user = this.get(id);
-    if (user) {
-      this.users = this.users.filter(u => u.id !== user.id);
-    }
-    return user;
+    delete this.users[id];
   }
 
   getUsersByRoom(room) {
