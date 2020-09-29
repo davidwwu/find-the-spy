@@ -19,7 +19,9 @@ class Users {
   }
 
   add(id, name, room, status, isHost) {
-    this.users.push(new User(id, name, room, status, isHost));
+    let newUser = new User(id, name, room, status, isHost)
+    this.users.push(newUser);
+    return newUser;
   }
 
   get(id) {

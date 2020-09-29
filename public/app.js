@@ -82,6 +82,7 @@ new Vue({
       } else {
         this.user.id = data.userId;
         this.user.status = data.userStatus;
+        this.user.isHost = data.isUserHost;
         this.user.role = data.userRole;
         this.initializeConnection();
       }
