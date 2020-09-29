@@ -69,6 +69,7 @@ io.on("connection", sock => {
             } else {
               game = new Game(user.room);
               let gameSetup = game.startGame(players);
+              io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
               io.to(user.room).emit("message:new", message("主持", '新遊戲已開始'));
               io.to(user.room).emit(
                 "message:new",
@@ -97,8 +98,7 @@ io.on("connection", sock => {
           );
           io.to(user.room).emit("message:new", message("主持", `${game.evaluate()}`));
           if (!game.isGameInProgress()) {
-            io.to(user.room).emit("message:new", message("主持", `平民的詞是 ${game.evaluate()}, 臥底的詞是`));
-            io.to(user.room).emit("message:new", message("主持", `${game.evaluate()} 是臥底, 是白板`));
+            io.to(user.room).emit("message:new", message("主持", `平民的詞是 ${game.getWordOfTheRound()[0]}, 臥底的詞是 ${game.getWordOfTheRound()[1]}`));
             io.to(user.room).emit("message:new", message("主持", '本輪遊戲結束'));
           }
         } else if (data.text == "!end") {

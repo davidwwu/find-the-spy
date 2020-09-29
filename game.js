@@ -52,6 +52,7 @@ module.exports = class Game {
       }
       this.shufflePlayers();
       this.assignRoles();
+      this.assignWord();
       this.gameInProgress = true;
     }
     console.log(JSON.stringify(this.players, null))
@@ -81,8 +82,11 @@ module.exports = class Game {
   }
   
   assignWord() {
-    let i = Math.floor(Math.random() * (this.wordsList.length));
     this.wordOfTheRound = this.wordsList[Math.floor(Math.random() * (this.wordsList.length))];
+    for (let player in this.players) {
+      if (player.role == '平民') player.word = this.wordOfTheRound[0];
+      else if (player.role == '臥底') player.word = this.wordOfTheRound[1];
+    }
   }
   
   evaluate() {
@@ -107,6 +111,10 @@ module.exports = class Game {
       }
     }
     return false;
+  }
+  
+  getWordOfTheRound() {
+    return this.wordOfTheRound;
   }
   
   endGame() {
