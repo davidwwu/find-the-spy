@@ -8,7 +8,8 @@ class User {
   }
   
   toggleSitStand() {
-    if (this.status ==)
+    if (this.status == '已坐下') this.status = '圍觀';
+    else this.status = '已坐下';
   }
 }
 
@@ -18,36 +19,38 @@ class Users {
   }
 
   add(id, name, room, status, role) {
-    this.users.push({ id, name, room, status, role });
+    this.users.push(new User(id, name, room, status, role));
   }
 
   get(id) {
-    return this.users.find(u => u.id === id);
+    return this.users.find(u => u.id == id);
   }
   
   update(newUserInfo) {
-    this.get(newUserInfo.id).name = newUserInfo.name;
-    this.get(newUserInfo.id).room = newUserInfo.room;
-    this.get(newUserInfo.id).status = newUserInfo.status;
-    this.get(newUserInfo.id).role = newUserInfo.role;
-    console.log(`newUser: `);
-    console.log(this.get(newUserInfo.id));
+    let user = this.get(newUserInfo.id);
+    user.name = newUserInfo.name;
+    user.room = newUserInfo.room;
+    user.status = newUserInfo.status;
+    user.role = newUserInfo.role;
+  }
+  
+  toggleSitStand(id) {
+    this.get(id).toggleSitStand();
   }
 
   remove(id) {
     const user = this.get(id);
     if (user) {
-      this.users = this.users.filter(u => u.id !== user.id);
+      this.users = this.users.filter(u => u.id != user.id);
     }
-    return user;
   }
 
   getUsersByRoom(room) {
-    return this.users.filter(u => u.room === room);
+    return this.users.filter(u => u.room == room);
   }
   
   getReadiedPlayersByRoom(room) {
-    return this.users.filter(u => u.room === room && u.status === '已坐下');
+    return this.users.filter(u => u.room == room && u.status == '已坐下');
   }
 }
 
