@@ -23,7 +23,8 @@ new Vue({
       name: "",
       room: "",
       status: "",
-      role: ""
+      role: "",
+      isHost: false
     },
     users: []
   },
@@ -83,7 +84,6 @@ new Vue({
         this.user.id = data.userId;
         this.user.status = data.userStatus;
         this.user.isHost = data.isUserHost;
-        this.user.role = data.userRole;
         this.initializeConnection();
       }
     });
