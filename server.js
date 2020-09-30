@@ -53,8 +53,7 @@ io.on("connection", sock => {
         const players = users.getReadiedPlayersByRoom(user.room);
         // handel system requests
         if (data.text == "!makeHost") {
-          user.role = "主持"
-          users.update(user);
+          users.makeHost(user.id);
           
           io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
           io.to(user.room).emit("message:new", message("主持", `${user.name} 已成為遊戲主持`));

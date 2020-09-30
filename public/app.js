@@ -32,6 +32,7 @@ new Vue({
     initializeConnection() {
       socket.on("users:update", users => {
         this.users = [...users];
+        console.log(this.users);
         // count down when players are joined
         
       });
