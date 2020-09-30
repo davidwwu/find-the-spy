@@ -75,12 +75,10 @@ module.exports = class Game {
     for (let role in this.gameSetup) {
       let j = this.gameSetup[role];
       while (j > 0) {
-        console.log(`i: ${i}, j: ${j}`);
         this.players[i].role = role;
         i++;
         j--;
       }
-      console.log(JSON.stringify(this.players));
     }
   }
   
