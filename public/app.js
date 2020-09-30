@@ -31,8 +31,9 @@ new Vue({
   methods: {
     initializeConnection() {
       socket.on("users:update", users => {
+        console.log('users: ', users);
         this.users = [...users];
-        console.log(this.users);
+        console.log('this.users: ',this.users);
         // count down when players are joined
         
       });
@@ -57,9 +58,9 @@ new Vue({
         }
       });
     },
-    updateUserStatus(event) {
+    toggleSitStand(event) {
       this.user.status = event.target.innerHTML.trim() === '站起' ? '圍觀' : '已坐下';
-      socket.emit("user:update", this.user, err => {
+      socket.emit("user:toggleSitStand", this.user, err => {
         if (err) {
           console.error(err);
         } else {

@@ -110,11 +110,16 @@ io.on("connection", sock => {
       cb();
     }
   });
+  
+  sock.on("user:toggleSitStand", (user, cb) => {
+    users.toggleSitStand(user.id);
+    io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
+    cb();
+  });
 
   sock.on("user:update", (user, cb) => {
     users.update(user);
     io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
-
     cb();
   });
 
