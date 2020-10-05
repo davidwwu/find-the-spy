@@ -76,28 +76,32 @@ io.on("connection", sock => {
             }
           }
         } else if (data.text.indexOf("!vote") >= 0) {
-          let playerNameToEliminate = data.text.split('-')[1].trim();
-          let gameSetup = game.eliminate(playerNameToEliminate);
-          
-          io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
-          io.to(user.room).emit("message:new", message("主持", `${playerNameToEliminate} 出局`));
-          
-          for(let i = 0; i < players.length; i++) {
-            if(players[i].name == playerNameToEliminate && players[i].status == '已坐下') {
-              players[i].role = "出局"
-              users.update(players[i]);
-              break;
+          if (game.isGameInProgress()) {
+            let playerNameToEliminate = data.text.split('-')[1].trim();
+            let gameSetup = game.eliminate(playerNameToEliminate);
+            
+            io.to(user.room).emit("message:new", message(data.name, data.text, data.id));
+            io.to(user.room).emit("message:new", message("主持", `${playerNameToEliminate} 出局`));
+            
+            for(let i = 0; i < players.length; i++) {
+              if(players[i].name == playerNameToEliminate && players[i].status == '已坐下') {
+                players[i].role = "出局"
+                users.update(players[i]);
+                break;
+              }
             }
-          }
-          io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
-          io.to(user.room).emit(
-            "message:new",
-            message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
-          );
-          io.to(user.room).emit("message:new", message("主持", `${game.evaluate()}`));
-          if (!game.isGameInProgress()) {
-            io.to(user.room).emit("message:new", message("主持", `平民的詞是 ${game.getWordOfTheRound()[0]}, 臥底的詞是 ${game.getWordOfTheRound()[1]}`));
-            io.to(user.room).emit("message:new", message("主持", '本輪遊戲結束'));
+            io.to(user.room).emit("users:update", users.getUsersByRoom(user.room));
+            io.to(user.room).emit(
+              "message:new",
+              message("主持", `${gameSetup['平民']} 平民, ${gameSetup['臥底']} 臥底, ${gameSetup['白板']} 白板`)
+            );
+            io.to(user.room).emit("message:new", message("主持", `${game.evaluate()}`));
+            if (!game.isGameInProgress()) {
+              io.to(user.room).emit("message:new", message("主持", `平民的詞是 ${game.getWordOfTheRound()[0]}, 臥底的詞是 ${game.getWordOfTheRound()[1]}`));
+              io.to(user.room).emit("message:new", message("主持", '本輪遊戲結束'));
+            }
+          } else {
+            io.to(user.room).emit("message:new", message("主持", '沒有正在進行的遊戲'));
           }
         } else if (data.text == "!end") {
           game.endGame();

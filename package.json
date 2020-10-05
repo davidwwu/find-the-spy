@@ -1,7 +1,7 @@
 {
-  "name": "udemy-vue_chat",
+  "name": "find-the-spy",
   "version": "0.0.1",
-  "description": "vue chat with express backend",
+  "description": "Find the spy with Vue and Node.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -13,7 +13,7 @@
     "express",
     "node"
   ],
-  "author": "zed-chi",
+  "author": "davidwu",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",

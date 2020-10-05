@@ -49,6 +49,7 @@ class Users {
     if (user) {
       this.users = this.users.filter(u => u.id != user.id);
     }
+    return user;
   }
 
   getUsersByRoom(room) {
